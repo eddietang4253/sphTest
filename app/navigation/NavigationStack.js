@@ -1,22 +1,17 @@
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import {createStackNavigator, createAppContainer} from "react-navigation";
 
-import Login from 'app/screens/Login';
-import Home from 'app/screens/Home';
+import Home from "app/screens/Home";
 
 const RNApp = createStackNavigator(
-    {
-        Login: {
-            screen: Login,
-            navigationOptions: { header: null, gesturesEnabled: false }
-        },
-        Home: {
-            screen: Home,
-            navigationOptions: { header: null, gesturesEnabled: false }
-        }
-    },
-    {
-        initialRouteName: 'Login'
+  {
+    Home: {
+      screen: Home,
+      navigationOptions: {header: null, gesturesEnabled: false}
     }
+  },
+  {
+    initialRouteName: "Home"
+  }
 );
 
 export default createAppContainer(RNApp);

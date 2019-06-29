@@ -47,7 +47,6 @@ class HomeView extends Component {
         console.log("responseJson", responseJson.result.records);
         this.setState(
           {
-            loading: false,
             data: responseJson.result.records
           },
           () => {
@@ -75,13 +74,30 @@ class HomeView extends Component {
       array2.push(split[1]); // after the dot
     }
     var processedData = this.groupBy(array1, "year");
-    //  console.log("processedData", processedData);
+
     var finalData = [];
     for (var i = 2008; i <= 2018; i++) {
-      finalData.push({year: i, data: processedData[i]});
+      let total = 0;
+      let decreased = false;
+      for (var j = 0; j < processedData[i].length; j++) {
+        total = total + parseFloat(processedData[i][j].data);
+        if (j > 0) {
+          if (processedData[i][j - 1].data > processedData[i][j].data) {
+            decreased = true;
+          }
+        }
+      }
+      finalData.push({
+        year: i,
+        data: processedData[i],
+        total: total,
+        decreased: decreased
+      });
     }
-    console.log("  finalData", finalData);
+    this.setState({data: finalData, loading: false});
+    console.log("final", finalData);
   }
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
@@ -92,13 +108,36 @@ class HomeView extends Component {
           contentContainerStyle={{paddingTop: 16}}
           refreshing={this.state.loading}
           renderItem={({item, index}) => (
-            <View>
-              <Text>
-                {item.quarter} : {item.volume_of_mobile_data}
-              </Text>
+            <View style={styles.cards}>
+              {item.decreased && (
+                <TouchableOpacity
+                  onPress={() => {
+                    alert(
+                      " Quarter in this year demonstrates a decrease in volume data"
+                    );
+                  }}
+                >
+                  <Image
+                    resizeMode="contain"
+                    source={require("./decrease.png")}
+                    style={{
+                      height: 50,
+                      width: 50,
+
+                      marginLeft: 5,
+                      left: 10
+                    }}
+                  />
+                </TouchableOpacity>
+              )}
+              <View style={styles.center}>
+                <Text style={styles.yearText}>{item.year}</Text>
+
+                <Text style={styles.title}>Total data consumption:</Text>
+                <Text style={styles.data}>{item.total}</Text>
+              </View>
             </View>
           )}
-          keyExtractor={item => item._id.toString()}
         />
       </SafeAreaView>
     );

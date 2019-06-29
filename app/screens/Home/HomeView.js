@@ -75,14 +75,12 @@ class HomeView extends Component {
       array2.push(split[1]); // after the dot
     }
     var processedData = this.groupBy(array1, "year");
-    console.log("processedData", processedData);
+    //  console.log("processedData", processedData);
     var finalData = [];
-    for (var i = 0; i < processedData.length; i++) {
-      if (finalData.length == 0) {
-        finalData = [{}];
-      }
+    for (var i = 2008; i <= 2018; i++) {
+      finalData.push({year: i, data: processedData[i]});
     }
-    console.log("array2", array2);
+    console.log("  finalData", finalData);
   }
   render() {
     return (

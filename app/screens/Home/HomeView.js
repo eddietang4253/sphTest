@@ -111,7 +111,7 @@ class HomeView extends Component {
         <SafeAreaView style={styles.container}>
           <View style={styles.centerContainer}>
             <Text style={styles.yearText}>
-              There was an error with yout internet connection
+              There was an error with your internet connection
             </Text>
 
             <Text style={styles.title}>Press "Refresh" to retry</Text>
